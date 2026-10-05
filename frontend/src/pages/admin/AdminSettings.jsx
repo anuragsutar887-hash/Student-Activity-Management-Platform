@@ -131,18 +131,18 @@ export default function AdminSettings() {
       <main className="mx-auto max-w-5xl">
         <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-indigo-700">Administration</p>
-            <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            <p className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400">Administration</p>
+            <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">
               Platform Settings &amp; User Permissions
             </h1>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               Role-based access control (RBAC), verification rules, and system data management.
             </p>
           </div>
           <button
             type="button"
             onClick={() => setResetModalOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-rose-200 bg-rose-50 px-3.5 py-2 text-xs font-bold text-rose-700 hover:bg-rose-100 transition"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-rose-200 dark:border-rose-900/60 bg-rose-50 dark:bg-rose-950/40 px-3.5 py-2 text-xs font-bold text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/50 transition"
           >
             <RotateCcw size={14} />
             Reset Database
@@ -150,29 +150,29 @@ export default function AdminSettings() {
         </div>
 
         {message && (
-          <div className="mb-6 flex items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-xs font-semibold text-emerald-800">
-            <CheckCircle2 size={16} className="text-emerald-600" />
+          <div className="mb-6 flex items-center gap-2 rounded-2xl border border-emerald-200 dark:border-emerald-850 bg-emerald-50 dark:bg-emerald-950/60 p-4 text-xs font-semibold text-emerald-800 dark:text-emerald-300">
+            <CheckCircle2 size={16} className="text-emerald-600 dark:text-emerald-400" />
             {message}
           </div>
         )}
 
         {/* User Permissions Section (Role-Based Access Control) */}
-        <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm mb-8">
-          <div className="border-b border-slate-100 p-6">
+        <section className="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm mb-8">
+          <div className="border-b border-slate-100 dark:border-slate-800 p-6">
             <div className="flex items-center gap-2.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400">
                 <ShieldCheck size={18} />
               </span>
               <div>
-                <h2 className="text-base font-bold text-slate-900">User Permissions Matrix</h2>
-                <p className="text-xs text-slate-500">Configure role privileges for Student, Staff, and Admin</p>
+                <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">User Permissions Matrix</h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Configure role privileges for Student, Staff, and Admin</p>
               </div>
             </div>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full min-w-[650px] text-left text-sm">
-              <thead className="border-b border-slate-100 bg-slate-50/80 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <thead className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/60 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 <tr>
                   <th className="px-6 py-3.5">Capability / Permission</th>
                   <th className="px-4 py-3.5 text-center">Student</th>
@@ -180,12 +180,12 @@ export default function AdminSettings() {
                   <th className="px-4 py-3.5 text-center">Admin</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {permissionLabels.map(({ key, label, desc }) => (
-                  <tr key={key} className="hover:bg-slate-50/60 transition-colors">
+                  <tr key={key} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
                     <td className="px-6 py-3.5">
-                      <span className="font-semibold text-slate-900 block">{label}</span>
-                      <span className="text-[11px] text-slate-400">{desc}</span>
+                      <span className="font-semibold text-slate-900 dark:text-slate-100 block">{label}</span>
+                      <span className="text-[11px] text-slate-400 dark:text-slate-500">{desc}</span>
                     </td>
                     {['student', 'staff', 'admin'].map((r) => (
                       <td key={r} className="px-4 py-3.5 text-center">
@@ -208,23 +208,23 @@ export default function AdminSettings() {
         </section>
 
         {/* System Policies */}
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm mb-8">
+        <section className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm mb-8">
           <div className="flex items-center gap-2.5 mb-4">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400">
               <SlidersHorizontal size={18} />
             </span>
             <div>
-              <h2 className="text-base font-bold text-slate-900">Verification Policies &amp; Preferences</h2>
-              <p className="text-xs text-slate-500">Configure global workflow and verification behaviors</p>
+              <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">Verification Policies &amp; Preferences</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Configure global workflow and verification behaviors</p>
             </div>
           </div>
 
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-slate-100 dark:divide-slate-800">
             {initialToggles.map(([name, description]) => (
               <div key={name} className="flex items-center justify-between gap-4 py-4">
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-900">{name}</h3>
-                  <p className="mt-0.5 text-xs text-slate-500">{description}</p>
+                  <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">{name}</h3>
+                  <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{description}</p>
                 </div>
                 <button
                   type="button"
@@ -236,13 +236,14 @@ export default function AdminSettings() {
                     setMessage(`Policy "${name}" preference saved.`)
                     window.setTimeout(() => setMessage(''), 3000)
                   }}
-                  className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
-                    toggles[name] ? 'bg-indigo-600' : 'bg-slate-300'
+                  className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 ${
+                    toggles[name] ? 'bg-indigo-600' : 'bg-slate-300 dark:bg-slate-700'
                   }`}
                 >
                   <span
-                    className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-xs transition-transform ${
-                      toggles[name] ? 'translate-x-5' : 'translate-x-0.5'
+                    aria-hidden="true"
+                    className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-md ring-0 transition-transform duration-200 ease-in-out ${
+                      toggles[name] ? 'translate-x-5' : 'translate-x-0'
                     }`}
                   />
                 </button>
@@ -252,21 +253,21 @@ export default function AdminSettings() {
         </section>
 
         {/* Activity Categories Preview */}
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
           <div className="flex items-center gap-2.5 mb-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400">
               <Tags size={18} />
             </span>
             <div>
-              <h2 className="text-base font-bold text-slate-900">Active Activity Categories</h2>
-              <p className="text-xs text-slate-500">Configured taxonomy for student submissions</p>
+              <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">Active Activity Categories</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Configured taxonomy for student submissions</p>
             </div>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
             {categories.map((c) => (
               <span
                 key={c}
-                className="rounded-xl border border-indigo-100 bg-indigo-50/70 px-3 py-1.5 text-xs font-semibold text-indigo-700"
+                className="rounded-xl border border-indigo-100 dark:border-indigo-900/50 bg-indigo-50/70 dark:bg-indigo-950/50 px-3 py-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300"
               >
                 {c}
               </span>
@@ -291,10 +292,10 @@ export default function AdminSettings() {
           }
         >
           <div className="space-y-3">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-600 dark:text-slate-300">
               This will clear all student activities, departments, categories, and role permissions, restoring the system to its initial empty state.
             </p>
-            <p className="text-xs text-amber-700 bg-amber-50 p-3 rounded-xl border border-amber-200">
+            <p className="text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 p-3 rounded-xl border border-amber-200 dark:border-amber-900/60">
               ⚠️ This action cannot be undone. All records will be permanently removed.
             </p>
           </div>

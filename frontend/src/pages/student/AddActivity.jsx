@@ -52,12 +52,12 @@ export default function AddActivity() {
     const required =
       intent === 'draft'
         ? ['name']
-        : ['name', 'category', 'level', 'date', 'organizer', 'achievement', 'description']
+        : ['name', 'category', 'level', 'date', 'organizer', 'achievement', 'description', 'certificate']
 
     const nextErrors = {}
     required.forEach((field) => {
       if (!String(form[field] ?? '').trim()) {
-        nextErrors[field] = 'This field is required.'
+        nextErrors[field] = field === 'certificate' ? 'Certificate or proof document is required.' : 'This field is required.'
       }
     })
 
@@ -210,7 +210,7 @@ export default function AddActivity() {
           <div>
             <div className="mb-1.5 flex items-center justify-between">
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
-                Upload Documents (Certificate / Proof)
+                Upload Documents (Certificate / Proof) <span className="text-rose-500">*</span>
               </label>
               <span className="text-xs text-slate-400 dark:text-slate-500">PDF, JPG, PNG up to 10 MB</span>
             </div>
@@ -226,6 +226,11 @@ export default function AddActivity() {
                 }
               }}
             />
+            {errors.certificate && (
+              <p role="alert" className="mt-1.5 text-xs font-medium text-rose-600 dark:text-rose-400">
+                {errors.certificate}
+              </p>
+            )}
           </div>
 
           {/* Wireframe #2 Actions: [ Save Draft ] [ Submit ] */}
