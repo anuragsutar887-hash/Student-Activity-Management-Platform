@@ -20,7 +20,7 @@ export default function Modal({ open, onClose, title, children, actions }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="modal-panel-enter w-full max-w-lg rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-xl sm:p-6 text-slate-900 dark:text-slate-100"
+        className="modal-panel-enter w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-xl sm:p-6 text-slate-900 dark:text-slate-100"
       >
         <div className="flex items-start justify-between gap-4">
           <h2 id="modal-title" className="text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h2>
@@ -34,7 +34,7 @@ export default function Modal({ open, onClose, title, children, actions }) {
           </button>
         </div>
         <div className="mt-4 text-slate-700 dark:text-slate-300">{children}</div>
-        {actions && <div className="mt-6 flex justify-end gap-2">{actions}</div>}
+        {actions && <div className="mt-6 flex flex-wrap justify-end gap-2">{actions}</div>}
       </section>
     </div>
   )

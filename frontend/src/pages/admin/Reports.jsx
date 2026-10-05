@@ -335,41 +335,121 @@ export default function Reports({ role: roleProp }) {
           {/* Category-wise report */}
           <Chart title="Category-wise Activity Breakdown">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={categoryData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 10 }} />
-                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-                <Tooltip />
-                <Bar dataKey="value" fill="var(--brand-primary)" radius={[5, 5, 0, 0]} />
-              </BarChart>
+              {categoryData.length > 0 ? (
+                <BarChart data={categoryData}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.15)" />
+                  <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#94a3b8' }} stroke="#94a3b8" />
+                  <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: '#94a3b8' }} stroke="#94a3b8" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#0f172a',
+                      borderColor: '#334155',
+                      borderRadius: '12px',
+                      color: '#f8fafc',
+                      fontSize: '12px',
+                    }}
+                  />
+                  <Bar
+                    dataKey="value"
+                    fill="#6366f1"
+                    maxBarSize={36}
+                    radius={[6, 6, 0, 0]}
+                    isAnimationActive={false}
+                  />
+                </BarChart>
+              ) : (
+                <div className="flex h-full items-center justify-center text-xs text-slate-400">
+                  No category data
+                </div>
+              )}
             </ResponsiveContainer>
           </Chart>
 
           {/* Level-wise report */}
           <Chart title="Event Level Distribution">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={levelData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 11 }} />
-                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-                <Tooltip />
-                <Bar dataKey="value" fill="var(--energy-orange)" radius={[5, 5, 0, 0]} />
-              </BarChart>
+              {levelData.some((l) => l.value > 0) ? (
+                <BarChart data={levelData}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.15)" />
+                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#94a3b8' }} stroke="#94a3b8" />
+                  <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: '#94a3b8' }} stroke="#94a3b8" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#0f172a',
+                      borderColor: '#334155',
+                      borderRadius: '12px',
+                      color: '#f8fafc',
+                      fontSize: '12px',
+                    }}
+                  />
+                  <Bar
+                    dataKey="value"
+                    fill="#f97316"
+                    maxBarSize={36}
+                    radius={[6, 6, 0, 0]}
+                    isAnimationActive={false}
+                  />
+                </BarChart>
+              ) : (
+                <div className="flex h-full items-center justify-center text-xs text-slate-400">
+                  No level data
+                </div>
+              )}
             </ResponsiveContainer>
           </Chart>
 
           {/* Status Breakdown */}
           <Chart title="Verification Status Ratio">
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={52} outerRadius={86} paddingAngle={4}>
-                  {statusData.map((item) => (
-                    <Cell key={item.name} fill={statusColors[item.name] || '#94a3b8'} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
+              {statusData.length > 0 ? (
+                <PieChart>
+                  <Pie
+                    data={statusData.filter((item) => item.value > 0)}
+                    dataKey="value"
+                    nameKey="name"
+                    innerRadius={52}
+                    outerRadius={86}
+                    paddingAngle={0}
+                    stroke="none"
+                    isAnimationActive={false}
+                  >
+                    {statusData
+                      .filter((item) => item.value > 0)
+                      .map((item) => (
+                        <Cell
+                          key={item.name}
+                          fill={
+                            item.name === 'Verified'
+                              ? '#10b981'
+                              : item.name === 'Pending'
+                              ? '#f59e0b'
+                              : item.name === 'Rejected'
+                              ? '#f43f5e'
+                              : '#64748b'
+                          }
+                        />
+                      ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#0f172a',
+                      borderColor: '#334155',
+                      borderRadius: '12px',
+                      color: '#f8fafc',
+                      fontSize: '12px',
+                    }}
+                  />
+                  <Legend
+                    verticalAlign="bottom"
+                    iconType="circle"
+                    wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+                  />
+                </PieChart>
+              ) : (
+                <div className="flex h-full items-center justify-center text-xs text-slate-400">
+                  No status data
+                </div>
+              )}
             </ResponsiveContainer>
           </Chart>
         </section>

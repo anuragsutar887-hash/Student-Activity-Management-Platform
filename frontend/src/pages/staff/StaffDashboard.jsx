@@ -377,27 +377,85 @@ export default function StaffDashboard() {
         <section className="mt-8 grid gap-5 xl:grid-cols-2">
           <ChartPanel title="Activities by Category">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={categoryData} margin={{ top: 8, right: 10, bottom: 8, left: -18 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 10 }} />
-                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
-                <Tooltip />
-                <Bar dataKey="count" fill="var(--brand-primary)" radius={[5, 5, 0, 0]} />
-              </BarChart>
+              {categoryData.length > 0 ? (
+                <BarChart data={categoryData} margin={{ top: 8, right: 10, bottom: 8, left: -18 }}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148, 163, 184, 0.15)" />
+                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#94a3b8' }} stroke="#94a3b8" />
+                  <YAxis allowDecimals={false} tick={{ fontSize: 11, fill: '#94a3b8' }} stroke="#94a3b8" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#0f172a',
+                      borderColor: '#334155',
+                      borderRadius: '12px',
+                      color: '#f8fafc',
+                      fontSize: '12px',
+                    }}
+                  />
+                  <Bar
+                    dataKey="count"
+                    fill="#6366f1"
+                    maxBarSize={36}
+                    radius={[6, 6, 0, 0]}
+                    isAnimationActive={false}
+                  />
+                </BarChart>
+              ) : (
+                <div className="flex h-full items-center justify-center text-xs text-slate-400">
+                  No activity categories yet
+                </div>
+              )}
             </ResponsiveContainer>
           </ChartPanel>
 
           <ChartPanel title="Verification Status Distribution">
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={55} outerRadius={85} paddingAngle={4}>
-                  {statusData.map((item, index) => (
-                    <Cell key={item.name} fill={['var(--success)', 'var(--achievement-gold)', 'var(--danger)'][index]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
+              {totalSubmissions > 0 ? (
+                <PieChart>
+                  <Pie
+                    data={statusData.filter((item) => item.value > 0)}
+                    dataKey="value"
+                    nameKey="name"
+                    innerRadius={55}
+                    outerRadius={85}
+                    paddingAngle={0}
+                    stroke="none"
+                    isAnimationActive={false}
+                  >
+                    {statusData
+                      .filter((item) => item.value > 0)
+                      .map((item) => (
+                        <Cell
+                          key={item.name}
+                          fill={
+                            item.name === 'Verified'
+                              ? '#10b981'
+                              : item.name === 'Pending'
+                              ? '#f59e0b'
+                              : '#f43f5e'
+                          }
+                        />
+                      ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#0f172a',
+                      borderColor: '#334155',
+                      borderRadius: '12px',
+                      color: '#f8fafc',
+                      fontSize: '12px',
+                    }}
+                  />
+                  <Legend
+                    verticalAlign="bottom"
+                    iconType="circle"
+                    wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+                  />
+                </PieChart>
+              ) : (
+                <div className="flex h-full items-center justify-center text-xs text-slate-400">
+                  No submissions yet
+                </div>
+              )}
             </ResponsiveContainer>
           </ChartPanel>
         </section>

@@ -85,7 +85,7 @@ export default function AllActivities() {
           </div>
 
           {/* Category Select */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <SlidersHorizontal size={14} className="text-slate-400 shrink-0" />
             <select
               value={category}

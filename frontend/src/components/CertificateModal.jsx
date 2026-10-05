@@ -105,16 +105,16 @@ export default function CertificateModal({ open, onClose, activity }) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-xs"
     >
       <div className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl text-slate-900 dark:text-slate-100">
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 px-4 py-3.5 sm:px-6 sm:py-4">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300">
               <Award size={18} />
             </span>
-            <div>
-              <h2 id="cert-dialog-title" className="text-base font-bold text-slate-900 dark:text-slate-100">
+            <div className="min-w-0">
+              <h2 id="cert-dialog-title" className="text-sm font-bold text-slate-900 dark:text-slate-100 sm:text-base truncate">
                 {hasUploadedFile ? 'Uploaded Certificate' : 'Activity Certificate'}
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{activityName} · {studentName}</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-[200px] sm:max-w-none">{activityName} · {studentName}</p>
             </div>
           </div>
           <button
@@ -127,7 +127,7 @@ export default function CertificateModal({ open, onClose, activity }) {
           </button>
         </div>
 
-        <div className="p-6 sm:p-8">
+        <div className="p-4 sm:p-8">
           {/* ── Uploaded Certificate (actual file from student) ── */}
           {hasUploadedFile ? (
             <div className="mb-6">
