@@ -1,0 +1,432 @@
+.login-scene {
+  background: var(--app-background);
+  isolation: isolate;
+}
+
+.login-decoration {
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 9999px;
+  filter: blur(2px);
+}
+
+.login-decoration-teal {
+  top: -11rem;
+  left: -8rem;
+  width: 32rem;
+  height: 32rem;
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.12), transparent 70%);
+}
+
+.login-decoration-cyan {
+  right: -10rem;
+  bottom: -13rem;
+  width: 36rem;
+  height: 36rem;
+  background: radial-gradient(circle, rgba(232, 121, 249, 0.12), transparent 68%);
+}
+
+.login-decoration-navy {
+  top: 42%;
+  left: 38%;
+  width: 22rem;
+  height: 22rem;
+  background: radial-gradient(circle, rgba(11, 14, 40, 0.06), transparent 70%);
+}
+
+.login-brand-panel {
+  background: linear-gradient(145deg, #07091b 0%, #0b0e28 35%, #16123d 70%, #2a1b54 100%);
+  border-right: 1px solid rgba(0, 210, 255, 0.18);
+  box-shadow: inset -1px 0 0 rgba(232, 121, 249, 0.12);
+}
+
+.brand-shape {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+.brand-shape-one {
+  top: 10%;
+  right: -8rem;
+  width: 25rem;
+  height: 25rem;
+  border: 1.5px solid rgba(232, 121, 249, 0.22);
+  box-shadow: 0 0 60px rgba(232, 121, 249, 0.14);
+}
+
+.brand-shape-two {
+  right: 10%;
+  bottom: -12rem;
+  width: 26rem;
+  height: 26rem;
+  border: 1.5px solid rgba(0, 210, 255, 0.2);
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.14), transparent 69%);
+  box-shadow: 0 0 60px rgba(0, 210, 255, 0.12);
+}
+
+.role-choice:hover,
+.login-submit:hover {
+  transform: translateY(-1px);
+}
+
+.login-submit {
+  background: linear-gradient(135deg, #0b0e28 0%, #1a1a4e 45%, #4f46e5 100%);
+  border: 1px solid rgba(0, 210, 255, 0.28);
+  box-shadow: 0 8px 24px -4px rgba(79, 70, 229, 0.35), 0 0 14px rgba(0, 210, 255, 0.15);
+  transition: all 200ms ease;
+}
+
+.login-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0f1435 0%, #241c58 45%, #6366f1 100%);
+  box-shadow: 0 10px 28px -2px rgba(79, 70, 229, 0.45), 0 0 18px rgba(232, 121, 249, 0.3);
+  transform: translateY(-1px);
+}
+
+.login-form-enter,
+.student-profile-enter,
+.suggestions-enter {
+  animation: login-enter 190ms ease-out both;
+}
+
+.itpulse-splash {
+  position: relative;
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(135deg, #060818 0%, #0b102e 48%, #16123d 100%);
+  transition: opacity 350ms ease, transform 350ms ease;
+}
+
+.itpulse-splash-fade {
+  opacity: 0;
+  transform: scale(1.015);
+}
+
+.itpulse-splash-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  animation: itpulse-enter 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.itpulse-logo-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.itpulse-logo-halo {
+  position: absolute;
+  width: 175px;
+  height: 175px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.35) 0%, rgba(232, 121, 249, 0.22) 50%, transparent 72%);
+  filter: blur(24px);
+  animation: itpulse-halo-pulse 3.2s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.itpulse-logo-img {
+  position: relative;
+  z-index: 1;
+  animation: itpulse-logo-float 3.6s ease-in-out infinite;
+}
+
+.itpulse-title-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.itpulse-title-main {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2.3rem, 6.5vw, 3.8rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-align: center;
+  animation: itpulse-title-enter 550ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.itpulse-text-it {
+  color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 20%, #c7d2fe 60%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 16px rgba(0, 210, 255, 0.55));
+}
+
+.itpulse-text-space {
+  display: inline-block;
+  width: 0.25em;
+}
+
+.itpulse-text-pulse {
+  color: #38bdf8;
+  background: linear-gradient(135deg, #00d2ff 0%, #818cf8 35%, #e879f9 70%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(232, 121, 249, 0.65));
+  animation: itpulse-pulse-glow 3s ease-in-out infinite 600ms;
+}
+
+.itpulse-wave-wrap {
+  width: min(240px, 70vw);
+  height: 24px;
+  margin-top: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.6));
+}
+
+.itpulse-wave-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.itpulse-wave-path {
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  animation: itpulse-draw-wave 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards 400ms, itpulse-wave-pulse 2.2s ease-in-out infinite 1.8s;
+}
+
+.itpulse-brand-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 0.65rem;
+  max-width: min(640px, 90vw);
+  animation: itpulse-text-enter 450ms 250ms ease-out both;
+}
+
+.itpulse-dept-label {
+  margin: 0;
+  font-size: clamp(0.72rem, 2vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #38bdf8;
+  text-transform: uppercase;
+}
+
+.itpulse-platform-title {
+  margin: 0.45rem 0 0;
+  font-size: clamp(1.1rem, 3.2vw, 1.55rem);
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.itpulse-tagline {
+  margin: 0.65rem 0 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: clamp(0.68rem, 1.8vw, 0.78rem);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: #c7d2fe;
+}
+
+.itpulse-bullet {
+  color: #e879f9;
+  filter: drop-shadow(0 0 6px rgba(232, 121, 249, 0.8));
+}
+
+.itpulse-splash-loader {
+  width: 27px;
+  height: 27px;
+  margin-top: 1.7rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #00d2ff;
+  border-radius: 50%;
+  animation: itpulse-loader-appear 180ms 500ms ease-out both, itpulse-spin 750ms 680ms linear infinite;
+}
+
+.itpulse-progress-container {
+  width: min(320px, 85vw);
+  height: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 1.6rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.itpulse-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #00d2ff 0%, #818cf8 35%, #e879f9 70%, #00f5a0 100%);
+  border-radius: 9999px;
+  transition: width 90ms ease-out;
+  box-shadow: 0 0 14px rgba(0, 210, 255, 0.8), 0 0 24px rgba(232, 121, 249, 0.6);
+}
+
+.itpulse-loading-status {
+  margin-top: 0.85rem;
+  font-size: 0.78rem;
+  color: #c7d2fe;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.itpulse-splash-orb {
+  position: absolute;
+  width: 31rem;
+  height: 31rem;
+  border-radius: 50%;
+  filter: blur(10px);
+}
+
+.itpulse-splash-orb-one {
+  top: -18rem;
+  right: -6rem;
+  width: 34rem;
+  height: 34rem;
+  border: 1.5px solid rgba(232, 121, 249, 0.18);
+  background: radial-gradient(circle, rgba(232, 121, 249, 0.14), transparent 70%);
+}
+
+.itpulse-splash-orb-two {
+  bottom: -20rem;
+  left: -8rem;
+  width: 38rem;
+  height: 38rem;
+  border: 1.5px solid rgba(0, 210, 255, 0.18);
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.14), transparent 70%);
+}
+
+@keyframes itpulse-enter {
+  from { opacity: 0; transform: translateY(8px) scale(0.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes itpulse-text {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes itpulse-loader-appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes itpulse-spin { to { transform: rotate(360deg); } }
+
+@keyframes login-enter {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 3D Card Flip Viewport & Animation */
+.login-flip-viewport {
+  perspective: 1200px;
+  perspective-origin: center center;
+  width: 100%;
+}
+
+.login-flip-card {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation: login-card-3d-flip 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes login-card-3d-flip {
+  0% {
+    opacity: 0;
+    transform: rotateY(-80deg) scale(0.92);
+    filter: blur(2px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: rotateY(8deg) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes itpulse-halo-pulse {
+  0% { transform: scale(0.88); opacity: 0.5; }
+  100% { transform: scale(1.18); opacity: 0.95; }
+}
+
+@keyframes itpulse-logo-float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-7px) scale(1.025); }
+}
+
+@keyframes itpulse-draw-wave {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes itpulse-wave-pulse {
+  0%, 100% { opacity: 0.75; filter: drop-shadow(0 0 4px rgba(0, 210, 255, 0.5)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 12px rgba(232, 121, 249, 0.8)); }
+}
+
+@keyframes itpulse-title-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.88) translateY(10px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.02) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes itpulse-text-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes itpulse-pulse-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 16px rgba(232, 121, 249, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 26px rgba(0, 210, 255, 0.85));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .itpulse-splash { transition-duration: 1ms; }
+  .itpulse-splash-content, .itpulse-title-main, .itpulse-brand-info,
+  .itpulse-wave-path, .login-flip-card,
+  .login-form-enter, .student-profile-enter, .suggestions-enter {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
+  }
+}

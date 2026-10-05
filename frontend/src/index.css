@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+  --brand-primary: #4f46e5;
+  --brand-primary-hover: #4338ca;
+  --brand-primary-light: #eef2ff;
+  --brand-midnight: #07091b;
+  --brand-cosmic: #0b0e28;
+  --brand-secondary: #16123d;
+  --brand-tertiary: #2a1b54;
+  --neon-cyan: #00d2ff;
+  --neon-cyan-glow: rgba(0, 210, 255, 0.4);
+  --neon-magenta: #e879f9;
+  --neon-magenta-glow: rgba(232, 121, 249, 0.4);
+  --neon-mint: #00f5a0;
+  --achievement-gold: #f59e0b;
+  --achievement-gold-glow: #ffb800;
+  --energy-orange: #f97316;
+  --energy-orange-light: #fff7ed;
+  --success: #10b981;
+  --success-dark: #059669;
+  --success-light: #d1fae5;
+  --danger: #f43f5e;
+  --app-background: #f8f9fe;
+  --surface-card: #ffffff;
+  --surface-nested: #f1f3fb;
+  --border-primary: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+}
+
+.dark {
+  color-scheme: dark;
+  --app-background: #090d16;
+  --surface-card: #0f172a;
+  --surface-nested: #1e293b;
+  --border-primary: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+}
+
+@theme {
+  --color-slate-50: #f8f9fe;
+  --color-slate-100: #f1f3fb;
+  --color-indigo-50: #eef2ff;
+  --color-indigo-100: #e0e7ff;
+  --color-indigo-200: #c7d2fe;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-400: #818cf8;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-700: #4338ca;
+  --color-indigo-800: #312e81;
+  --color-indigo-900: #1e1b4b;
+  --color-indigo-950: #0b0e28;
+  --color-blue-50: #f0f9ff;
+  --color-blue-100: #e0f2fe;
+  --color-blue-500: #0ea5e9;
+  --color-blue-600: #0284c7;
+  --color-blue-700: #0369a1;
+  --color-violet-50: #faf5ff;
+  --color-violet-100: #f3e8ff;
+  --color-violet-600: #9333ea;
+  --color-violet-700: #7e22ce;
+  --color-violet-800: #2a1b54;
+  --color-violet-900: #16123d;
+  --color-violet-950: #07091b;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body, #root { margin: 0; min-height: 100%; }
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--app-background);
+  color: var(--text-primary);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea { font: inherit; }
+
+.dashboard-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, #07091b 0%, #0b0e28 35%, #16123d 70%, #2a1b54 100%);
+  border: 1px solid rgba(0, 210, 255, 0.22);
+  box-shadow: 0 20px 35px -12px rgba(7, 9, 27, 0.5), 0 0 25px -4px rgba(0, 210, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: white;
+}
+.dashboard-hero > * { position: relative; z-index: 1; }
+.dashboard-hero::before {
+  position: absolute;
+  z-index: 0;
+  bottom: -4.5rem;
+  left: -3.5rem;
+  width: 17rem;
+  height: 17rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.24) 0%, rgba(0, 210, 255, 0) 70%);
+  content: "";
+  pointer-events: none;
+}
+.dashboard-hero::after {
+  position: absolute;
+  z-index: 0;
+  top: -4.5rem;
+  right: -2.5rem;
+  width: 19rem;
+  height: 19rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(232, 121, 249, 0.22) 0%, rgba(232, 121, 249, 0) 70%);
+  content: "";
+  pointer-events: none;
+}
+.dashboard-hero :where(h1,h2,h3,p) { color: inherit; }
+.modal-backdrop-enter { animation: modal-fade-in 160ms ease-out both; }
+.modal-panel-enter { animation: modal-scale-in 180ms ease-out both; }
+@keyframes modal-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modal-scale-in { from { opacity: 0; transform: scale(.98) translateY(4px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes page-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: no-preference) { main { animation: page-enter 220ms ease-out both; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
