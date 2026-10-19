@@ -44,7 +44,7 @@ export default function MyActivities() {
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">All your submissions and their review status.</p>
           </div>
           <Button onClick={() => navigate('/student/activity/add')}>
-            <Plus size={17} /> Add Activity
+            <Plus size={17} /> Add Achievement
           </Button>
         </div>
         <div className="mb-5 grid gap-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-4">

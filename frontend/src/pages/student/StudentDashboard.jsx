@@ -81,7 +81,7 @@ export default function StudentDashboard() {
   ]
 
   const quickActions = [
-    { to: '/student/activity/add', title: 'Add Activity', detail: 'Submit new co-curricular / technical record', Icon: PlusCircle },
+    { to: '/student/activity/add', title: 'Add Achievement', detail: 'Submit your achievement, certification, or co-curricular record', Icon: PlusCircle },
     { to: '/student/activities', title: 'My Activities', detail: 'Manage and filter all your submissions', Icon: ClipboardList },
     { to: '/student/activities?status=Verified', title: 'Verified Credentials', detail: 'Review faculty-approved certifications', Icon: BadgeCheck },
   ]

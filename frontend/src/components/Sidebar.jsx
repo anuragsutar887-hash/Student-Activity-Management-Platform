@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
-  BarChart3, ClipboardList, FileCheck2, FileText,
-  LayoutDashboard, LogOut, PlusCircle, Search, Settings, Tags, User, UserCog, Users, X,
+  BarChart3, BookOpen, ClipboardList, FileCheck2, FileText, History,
+  LayoutDashboard, LogOut, PlusCircle, Search, Settings, Shield, Tags, User, UserCog, Users, X,
 } from 'lucide-react'
 import ITPulseLogo from './ITPulseLogo.jsx'
 import { useAuth } from '../context/authContextValue.js'
@@ -10,7 +10,7 @@ import { useAuth } from '../context/authContextValue.js'
 const navByRole = {
   student: [
     { label: 'Dashboard', to: '/student/dashboard', Icon: LayoutDashboard },
-    { label: 'Add Activity', to: '/student/activity/add', Icon: PlusCircle },
+    { label: 'Add Achievement', to: '/student/activity/add', Icon: PlusCircle },
     { label: 'My Activities', to: '/student/activities', Icon: ClipboardList },
   ],
   staff: [
@@ -19,6 +19,7 @@ const navByRole = {
     { label: 'Pending Verification', to: '/staff/pending', Icon: PlusCircle },
     { label: 'Verified Activities', to: '/staff/verified', Icon: FileCheck2 },
     { label: 'Rejected Activities', to: '/staff/rejected', Icon: FileText },
+    { label: 'My Academic Groups', to: '/staff/groups', Icon: BookOpen },
     { label: 'Search Students', to: '/staff/students', Icon: Search },
     { label: 'Certificates / Documents', to: '/staff/documents', Icon: FileCheck2 },
     { label: 'Reports & Analytics', to: '/staff/reports', Icon: BarChart3 },
@@ -27,12 +28,14 @@ const navByRole = {
   admin: [
     { label: 'Dashboard', to: '/admin/dashboard', Icon: LayoutDashboard },
     { label: 'Students', to: '/admin/students', Icon: Users },
-    { label: 'Staff', to: '/admin/staff', Icon: UserCog },
+    { label: 'Staff & Permissions', to: '/admin/staff', Icon: UserCog },
+    { label: 'Academic Groups', to: '/admin/groups', Icon: BookOpen },
     { label: 'Categories', to: '/admin/categories', Icon: Tags },
     { label: 'All Activities', to: '/admin/activities', Icon: ClipboardList },
     { label: 'Verification', to: '/admin/verification', Icon: FileCheck2 },
     { label: 'Documents', to: '/admin/documents', Icon: FileText },
     { label: 'Reports & Analytics', to: '/admin/reports', Icon: BarChart3 },
+    { label: 'Audit Log', to: '/admin/audit', Icon: Shield },
     { label: 'Profile', to: '/admin/profile', Icon: User },
     { label: 'Settings', to: '/admin/settings', Icon: Settings },
   ],

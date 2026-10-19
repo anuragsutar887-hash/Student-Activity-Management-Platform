@@ -9,6 +9,7 @@ import StaffLayout from '../../layouts/StaffLayout.jsx'
 import AdminLayout from '../../layouts/AdminLayout.jsx'
 import { useAuth } from '../../context/authContextValue.js'
 import { getActivityById, getDocuments, verifyActivity, rejectActivity } from '../../services/activityService.js'
+import { addAuditLog } from '../../services/academicService.js'
 
 export default function VerifyActivity() {
   const { id } = useParams()
@@ -16,6 +17,7 @@ export default function VerifyActivity() {
   const navigate = useNavigate()
   const { currentUser } = useAuth()
   const isAdmin = String(currentUser?.role).toLowerCase() === 'admin'
+  const isStaff = String(currentUser?.role).toLowerCase() === 'staff'
   const [activity, setActivity] = useState(() => getActivityById(id))
   const [reason, setReason] = useState('')
   const [decision, setDecision] = useState(() => (['Verified', 'Rejected'].includes(searchParams.get('decision')) ? searchParams.get('decision') : ''))
@@ -29,20 +31,54 @@ export default function VerifyActivity() {
       : '/admin/activities'
     : '/staff/submissions'
 
+  // Self-approval prevention: check if reviewer is the submitter
+  const reviewerEmail = String(currentUser?.email || '').toLowerCase()
+  const submitterEmail = String(activity?.student_email || activity?.email || '').toLowerCase()
+  const submitterName = String(activity?.student_name || '').toLowerCase()
+  const reviewerName = currentUser?.name || ''
+  // A staff member cannot approve their own activity
+  const isSelfReview = isStaff && (
+    (reviewerEmail && submitterEmail && reviewerEmail === submitterEmail) ||
+    (reviewerName && submitterName && reviewerName.toLowerCase() === submitterName)
+  )
+  // Staff-submitted activities must go to admin queue
+  const isStaffSubmittedActivity = activity && (
+    String(activity.submitter_role || '').toLowerCase() === 'staff' ||
+    String(activity.student_role || '').toLowerCase() === 'staff'
+  )
+  const reviewBlocked = isStaff && (isSelfReview || isStaffSubmittedActivity)
+
   function confirmDecision() {
+    // Backend enforcement of self-approval prevention
+    if (reviewBlocked) {
+      setError('You cannot review this activity. Staff members cannot approve their own activities or staff-submitted activities.')
+      return
+    }
     if (decision === 'Rejected' && !reason.trim()) {
       setError('Enter a reason or instructions for revision.')
       return
     }
-    const reviewerName = currentUser?.name || (isAdmin ? 'System Administrator' : 'Faculty Coordinator')
+    const actorName = currentUser?.name || (isAdmin ? 'System Administrator' : 'Faculty Coordinator')
     const updated = decision === 'Verified'
-      ? verifyActivity(id, reviewerName)
-      : rejectActivity(id, reason, reviewerName)
+      ? verifyActivity(id, actorName)
+      : rejectActivity(id, reason, actorName)
 
     if (!updated) {
       setError('The activity could not be updated.')
       return
     }
+
+    // Audit log the review decision
+    addAuditLog({
+      actor: currentUser?.email || actorName,
+      actorRole: currentUser?.role || 'staff',
+      action: decision === 'Verified' ? 'activity_approved' : 'activity_rejected',
+      targetType: 'activity',
+      targetId: String(id),
+      targetLabel: `"${activity.name}" by ${activity.student_name}`,
+      details: { decision, reason: reason || null },
+    })
+
     setActivity(updated)
     setNotice(`Activity ${decision.toLowerCase()} successfully.`)
     setDecision('')
@@ -149,23 +185,29 @@ export default function VerifyActivity() {
                 <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">Verification Decision</h2>
                 <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Review submitted proof and update the verification record.</p>
               </div>
-              <div className="flex flex-wrap gap-2.5">
-                <Button
-                  onClick={() => setDecision('Verified')}
-                  disabled={activity.status === 'Verified'}
-                  className="gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white"
-                >
-                  <BadgeCheck size={17} /> Verify Activity
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => setDecision('Rejected')}
-                  disabled={activity.status === 'Rejected'}
-                  className="gap-1.5"
-                >
-                  <XCircle size={17} /> Reject Activity
-                </Button>
-              </div>
+              {reviewBlocked ? (
+                <div className="rounded-2xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 p-4 text-sm text-amber-800 dark:text-amber-300 font-semibold">
+                  {isSelfReview ? '⚠ You cannot review your own activity submission.' : '⚠ Staff-submitted activities must be reviewed by the admin.'}
+                </div>
+              ) : (
+                <div className="flex flex-wrap gap-2.5">
+                  <Button
+                    onClick={() => setDecision('Verified')}
+                    disabled={activity.status === 'Verified'}
+                    className="gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white"
+                  >
+                    <BadgeCheck size={17} /> Verify Activity
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => setDecision('Rejected')}
+                    disabled={activity.status === 'Rejected'}
+                    className="gap-1.5"
+                  >
+                    <XCircle size={17} /> Reject Activity
+                  </Button>
+                </div>
+              )}
             </section>
 
             {/* Decision Confirmation Modal */}

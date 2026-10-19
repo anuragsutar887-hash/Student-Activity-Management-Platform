@@ -240,11 +240,11 @@ export function registerStudentPrn(rollNo, alphanumericPrn) {
 
   // Ensure PRN is unique across other students
   const takenBy = students.find((s) => 
-    String(s.prn || '').toUpperCase() === cleanPrn && 
+    (String(s.prn || '').toUpperCase() === cleanPrn || String(s.default_prn || '').toUpperCase() === cleanPrn) && 
     String(s.roll_no || '').toUpperCase() !== String(rollNo).toUpperCase()
   )
   if (takenBy) {
-    throw new Error(`PRN "${cleanPrn}" is already registered to ${takenBy.name}.`)
+    throw new Error(`PRN is wrong. PRN "${cleanPrn}" is already registered to another student (${takenBy.name}).`)
   }
 
   const student = students.find((s) => String(s.roll_no).toUpperCase() === String(rollNo).toUpperCase())

@@ -19,10 +19,13 @@ import StaffProfile from './pages/staff/StaffProfile.jsx'
 import StaffActivityList from './pages/staff/StaffActivityList.jsx'
 import StudentDirectory, { StudentRecord } from './pages/staff/StudentDirectory.jsx'
 import StaffDocuments from './pages/staff/StaffDocuments.jsx'
+import MyGroups from './pages/staff/MyGroups.jsx'
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import ManageStudents from './pages/admin/ManageStudents.jsx'
 import ManageStaff from './pages/admin/ManageStaff.jsx'
 import ManageCategories from './pages/admin/ManageCategories.jsx'
+import AcademicGroups from './pages/admin/AcademicGroups.jsx'
+import AuditLog from './pages/admin/AuditLog.jsx'
 import Reports from './pages/admin/Reports.jsx'
 import AdminActivityList from './pages/admin/AdminActivityList.jsx'
 import AdminDocuments from './pages/admin/AdminDocuments.jsx'
@@ -66,6 +69,7 @@ function AppRoutes() {
       <Route path="/staff/documents" element={<RoleRoute role="staff"><StaffDocuments /></RoleRoute>} />
       <Route path="/staff/verify/:id" element={<RoleRoute role="staff"><VerifyActivity /></RoleRoute>} />
       <Route path="/staff/submission/:id" element={<RoleRoute role="staff"><VerifyActivity /></RoleRoute>} />
+      <Route path="/staff/groups" element={<RoleRoute role="staff"><MyGroups /></RoleRoute>} />
       <Route path="/staff/reports" element={<RoleRoute role="staff"><Reports role="staff" /></RoleRoute>} />
       <Route path="/staff/profile" element={<RoleRoute role="staff"><StaffProfile /></RoleRoute>} />
 
@@ -81,6 +85,8 @@ function AppRoutes() {
       <Route path="/admin/verification/:id" element={<RoleRoute role="admin"><VerifyActivity /></RoleRoute>} />
       <Route path="/admin/documents" element={<RoleRoute role="admin"><AdminDocuments /></RoleRoute>} />
       <Route path="/admin/reports" element={<RoleRoute role="admin"><Reports role="admin" /></RoleRoute>} />
+      <Route path="/admin/groups" element={<RoleRoute role="admin"><AcademicGroups /></RoleRoute>} />
+      <Route path="/admin/audit" element={<RoleRoute role="admin"><AuditLog /></RoleRoute>} />
       <Route path="/admin/profile" element={<RoleRoute role="admin"><AdminProfile /></RoleRoute>} />
       <Route path="/admin/settings" element={<RoleRoute role="admin"><AdminSettings /></RoleRoute>} />
 

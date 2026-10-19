@@ -33,7 +33,7 @@ import ITPulseLogo from './ITPulseLogo.jsx'
 const NAV_ITEMS_BY_ROLE = {
   student: [
     { label: 'Dashboard', to: '/student/dashboard', icon: LayoutDashboard },
-    { label: 'Add Activity', to: '/student/activity/add', icon: PlusCircle },
+    { label: 'Add Achievement', to: '/student/activity/add', icon: PlusCircle },
     { label: 'My Activities', to: '/student/activities', icon: ClipboardList },
   ],
   staff: [

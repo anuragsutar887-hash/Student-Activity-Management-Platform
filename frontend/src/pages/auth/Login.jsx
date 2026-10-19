@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import {
-  ArrowRight, CheckCircle, Database, Eye, EyeOff, GraduationCap,
+  ArrowRight, CheckCircle, Eye, EyeOff, GraduationCap,
   LockKeyhole, LoaderCircle, Mail, Plus, Search, ShieldCheck, UserCheck, UserCog,
 } from 'lucide-react'
 import ITPulseLogo from '../../components/ITPulseLogo.jsx'
@@ -33,11 +33,6 @@ export default function Login() {
   const navigate = useNavigate()
   const { login, currentUser } = useAuth()
 
-  // Directly land on the user's dashboard if already logged in (never stay on /login)
-  if (currentUser) {
-    const destination = dashboardPaths[String(currentUser.role).toLowerCase()] || '/student/dashboard'
-    return <Navigate to={destination} replace />
-  }
   const [role, setRole] = useState('student')
   const [searchQuery, setSearchQuery] = useState('')
   
@@ -72,6 +67,12 @@ export default function Login() {
     const list = searchStudents(query)
     return list.slice(0, 8)
   }, [searchQuery])
+
+  // Directly land on the user's dashboard if already logged in (never stay on /login)
+  if (currentUser) {
+    const destination = dashboardPaths[String(currentUser.role).toLowerCase()] || '/student/dashboard'
+    return <Navigate to={destination} replace />
+  }
 
   function changeRole(nextRole) {
     if (nextRole === role) return
@@ -150,7 +151,14 @@ export default function Login() {
         navigate(destination, { replace: true })
       } catch (err) {
         setLoading(false)
-        setErrors({ form: err?.message || 'Could not sign in to that portal. Please try again.' })
+        const msg = err?.message || 'Could not sign in to that portal. Please try again.'
+        if (/prn/i.test(msg)) {
+          setErrors({ prn: msg })
+        } else if (/password/i.test(msg)) {
+          setErrors({ password: msg })
+        } else {
+          setErrors({ form: msg })
+        }
       }
     }, 350)
   }
@@ -165,7 +173,7 @@ export default function Login() {
       }
       if (!prn.trim()) {
         nextErrors.prn = 'PRN number is compulsory for student sign in.'
-      } else if (!/^[a-zA-Z0-9_\-]{4,25}$/.test(prn.trim())) {
+      } else if (!/^[a-zA-Z0-9_-]{4,25}$/.test(prn.trim())) {
         nextErrors.prn = 'Enter a valid PRN number (letters & numbers, 4–25 characters, e.g. PRN2024IT001 or 72214568K).'
       }
       if (!password) {
@@ -474,7 +482,7 @@ export default function Login() {
                         />
                       </div>
                       <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Enter your unique PRN number</p>
-                      {errors.prn && <p className="mt-1 text-xs text-rose-600">{errors.prn}</p>}
+                      {errors.prn && <p className="mt-1.5 flex items-center gap-1 text-xs font-semibold text-rose-600 dark:text-rose-400">{errors.prn}</p>}
                     </div>
                   ) : (
                     <div>

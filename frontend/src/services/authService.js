@@ -1,5 +1,5 @@
 import { isSupabaseConfigured, supabase } from '../lib/supabase.js'
-import { registerStudentPrn } from './studentService.js'
+import { getStudents, registerStudentPrn } from './studentService.js'
 
 // ==============================================================================
 // AUTHORIZED SINGLE ACCOUNTS (Strict Single Credentials)
@@ -90,8 +90,17 @@ export function mockLogin(credentials) {
     }
 
     // Must be a valid alphanumeric string (letters, numbers, hyphens, underscores)
-    if (!/^[A-Z0-9_\-]{4,25}$/.test(enteredPrn)) {
-      throw new Error('Please enter a valid PRN number (letters & numbers, 4–25 characters, e.g. PRN2024IT001 or 72214568K).')
+    if (!/^[A-Z0-9_-]{4,25}$/.test(enteredPrn)) {
+      throw new Error('PRN is wrong. Please enter a valid PRN number (letters & numbers, 4–25 characters, e.g. PRN2024IT001 or 72214568K).')
+    }
+
+    // Ensure PRN does not belong to another student
+    const otherStudent = getStudents().find((s) => 
+      (String(s.prn || '').toUpperCase() === enteredPrn || String(s.default_prn || '').toUpperCase() === enteredPrn) &&
+      String(s.roll_no || '').toUpperCase() !== String(student.roll_no).toUpperCase()
+    )
+    if (otherStudent) {
+      throw new Error(`PRN is wrong. PRN "${enteredPrn}" is already registered to another student (${otherStudent.name}).`)
     }
 
     const registeredPrn = String(student.prn || '').trim().toUpperCase()
@@ -107,7 +116,7 @@ export function mockLogin(credentials) {
         const updated = registerStudentPrn(student.roll_no, enteredPrn)
         effectivePrn = updated.prn
       } catch (err) {
-        throw new Error(err.message || 'PRN validation failed.')
+        throw new Error(err.message || 'PRN is wrong. PRN validation failed.')
       }
     }
 

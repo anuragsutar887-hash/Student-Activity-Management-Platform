@@ -87,14 +87,14 @@ export default function AddActivity() {
     setMessage(
       intent === 'draft'
         ? 'Draft saved successfully. You can return and complete it later.'
-        : 'Activity submitted for verification! Your department coordinator has been notified.'
+        : 'Achievement submitted for verification! Your department coordinator has been notified.'
     )
 
     window.setTimeout(() => navigate('/student/activities'), 650)
   }
 
   return (
-    <StudentLayout title={existing ? 'Edit Activity' : 'Add Activity'}>
+    <StudentLayout title={existing ? 'Edit Achievement' : 'Add Achievement'}>
       <main className="mx-auto max-w-4xl">
         <button
           type="button"
@@ -106,7 +106,7 @@ export default function AddActivity() {
 
         <div className="mb-6">
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-3xl">
-            {existing ? 'Edit Activity Details' : 'Add New Activity'}
+            {existing ? 'Edit Achievement Details' : 'Add New Achievement'}
           </h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Submit your co-curricular, extracurricular, technical, or academic achievement for college verification.

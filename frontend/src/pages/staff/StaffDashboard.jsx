@@ -18,6 +18,12 @@ import {
 } from '../../services/activityService.js'
 import { getDepartments, getStudents } from '../../services/studentService.js'
 import { useAuth } from '../../context/authContextValue.js'
+import {
+  addAuditLog,
+  getStaffAssignments,
+  getAcademicClassById,
+  getClassMemberships,
+} from '../../services/academicService.js'
 
 export default function StaffDashboard() {
   const { currentUser } = useAuth()
@@ -30,6 +36,7 @@ export default function StaffDashboard() {
   const [selectedDept, setSelectedDept] = useState('All')
   const [selectedYear, setSelectedYear] = useState('All')
   const [selectedStatus, setSelectedStatus] = useState('Pending')
+  const [selectedGroup, setSelectedGroup] = useState('All')
 
   // Verification / Rejection Modals
   const [rejectingItem, setRejectingItem] = useState(null)
@@ -37,6 +44,17 @@ export default function StaffDashboard() {
   const [rejectionError, setRejectionError] = useState('')
   const [viewingCertActivity, setViewingCertActivity] = useState(null)
   const [notice, setNotice] = useState('')
+
+  // Staff assigned academic groups
+  const staffEmail = currentUser?.email || ''
+  const myAssignments = useMemo(() => getStaffAssignments({ staffEmail, status: 'Active' }), [staffEmail])
+  const myClasses = useMemo(() => myAssignments.map(a => getAcademicClassById(a.class_id)).filter(Boolean), [myAssignments])
+
+  const groupEnrolledPrns = useMemo(() => {
+    if (selectedGroup === 'All') return null
+    const memberships = getClassMemberships({ classId: selectedGroup, status: 'Active' })
+    return new Set(memberships.map(m => m.student_prn.toUpperCase()))
+  }, [selectedGroup])
 
   // Counts
   const totalSubmissions = activities.length
@@ -57,9 +75,16 @@ export default function StaffDashboard() {
       const matchesDept = selectedDept === 'All' || item.department === selectedDept || student?.department === selectedDept
       const matchesYear = selectedYear === 'All' || item.year === selectedYear || student?.year === selectedYear
       const matchesStatus = selectedStatus === 'All' || item.status === selectedStatus
-      return matchesSearch && matchesDept && matchesYear && matchesStatus
+
+      let matchesGroup = true
+      if (groupEnrolledPrns) {
+        const studentPrn = String(item.student_id || item.prn || student?.prn || student?.default_prn || '').toUpperCase()
+        matchesGroup = groupEnrolledPrns.has(studentPrn)
+      }
+
+      return matchesSearch && matchesDept && matchesYear && matchesStatus && matchesGroup
     })
-  }, [activities, searchStudent, selectedDept, selectedYear, selectedStatus, students])
+  }, [activities, searchStudent, selectedDept, selectedYear, selectedStatus, students, groupEnrolledPrns])
 
   // Category & Status Data for Charts
   const categoryData = useMemo(() => {
@@ -76,9 +101,42 @@ export default function StaffDashboard() {
     { name: 'Rejected', value: rejectedCount },
   ]
 
+  const reviewerEmail = String(currentUser?.email || '').toLowerCase()
+  const reviewerName = String(currentUser?.name || '').toLowerCase()
+
+  function isReviewBlocked(item) {
+    if (!item) return false
+    const submitterEmail = String(item.student_email || item.email || '').toLowerCase()
+    const submitterName = String(item.student_name || '').toLowerCase()
+    const isSelfReview = (
+      (reviewerEmail && submitterEmail && reviewerEmail === submitterEmail) ||
+      (reviewerName && submitterName && reviewerName === submitterName)
+    )
+    const isStaffSubmitted = (
+      String(item.submitter_role || '').toLowerCase() === 'staff' ||
+      String(item.student_role || '').toLowerCase() === 'staff'
+    )
+    return isSelfReview || isStaffSubmitted
+  }
+
   function handleQuickVerify(activity) {
-    const updated = verifyActivity(activity.id, currentUser?.name || 'Faculty Coordinator')
+    if (isReviewBlocked(activity)) {
+      setNotice('Cannot verify: Staff members cannot approve their own activities or staff-submitted activities.')
+      window.setTimeout(() => setNotice(''), 4500)
+      return
+    }
+    const actorName = currentUser?.name || 'Faculty Coordinator'
+    const updated = verifyActivity(activity.id, actorName)
     if (updated) {
+      addAuditLog({
+        actor: currentUser?.email || actorName,
+        actorRole: currentUser?.role || 'staff',
+        action: 'activity_approved',
+        targetType: 'activity',
+        targetId: String(activity.id),
+        targetLabel: `"${activity.name}" by ${activity.student_name}`,
+        details: { decision: 'Verified', quickVerify: true },
+      })
       setActivities(getAllActivities())
       setNotice(`"${activity.name}" by ${activity.student_name} was verified successfully.`)
       window.setTimeout(() => setNotice(''), 4000)
@@ -96,12 +154,26 @@ export default function StaffDashboard() {
       setRejectionError('Please enter a reason or instruction for the student to revise.')
       return
     }
+    if (isReviewBlocked(rejectingItem)) {
+      setRejectionError('Cannot review: Staff members cannot review their own activities or staff-submitted activities.')
+      return
+    }
+    const actorName = currentUser?.name || 'Faculty Coordinator'
     const updated = rejectActivity(
       rejectingItem.id,
       rejectionReason.trim(),
-      currentUser?.name || 'Faculty Coordinator'
+      actorName
     )
     if (updated) {
+      addAuditLog({
+        actor: currentUser?.email || actorName,
+        actorRole: currentUser?.role || 'staff',
+        action: 'activity_rejected',
+        targetType: 'activity',
+        targetId: String(rejectingItem.id),
+        targetLabel: `"${rejectingItem.name}" by ${rejectingItem.student_name}`,
+        details: { decision: 'Rejected', reason: rejectionReason.trim() },
+      })
       setActivities(getAllActivities())
       setNotice(`"${rejectingItem.name}" was marked for revision.`)
       setRejectingItem(null)
@@ -115,6 +187,7 @@ export default function StaffDashboard() {
     setSelectedDept('All')
     setSelectedYear('All')
     setSelectedStatus('All')
+    setSelectedGroup('All')
   }
 
   const today = new Intl.DateTimeFormat('en-IN', { dateStyle: 'full' }).format(new Date())
@@ -200,8 +273,8 @@ export default function StaffDashboard() {
               </div>
             </div>
 
-            {/* Wireframe #4 Filter Controls: Search Student | Dept [v] | Year [v] | Status [v] */}
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Wireframe #4 Filter Controls: Search Student | Dept [v] | Year [v] | Status [v] | Group [v] */}
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
               {/* Search Student... */}
               <div className="relative">
                 <Search size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -209,6 +282,7 @@ export default function StaffDashboard() {
                   type="search"
                   value={searchStudent}
                   onChange={(e) => setSearchStudent(e.target.value)}
+                  placeholder="Search student..."
                   className="h-10 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-200 pl-9 pr-3 text-xs outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-600/10"
                 />
               </div>
@@ -258,6 +332,23 @@ export default function StaffDashboard() {
                   <option value="All">Status: All</option>
                   <option value="Verified">Status: Verified</option>
                   <option value="Rejected">Status: Rejected</option>
+                </select>
+              </div>
+
+              {/* Academic Group filter */}
+              <div>
+                <label className="sr-only">Group</label>
+                <select
+                  value={selectedGroup}
+                  onChange={(e) => setSelectedGroup(e.target.value)}
+                  className="h-10 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 text-xs font-bold text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-600"
+                >
+                  <option value="All">Group: All {myClasses.length > 0 ? `(${myClasses.length} assigned)` : ''}</option>
+                  {myClasses.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.year_level} - {c.department.replace('Information Technology', 'IT')}{c.division ? ` (${c.division})` : ''}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -326,20 +417,28 @@ export default function StaffDashboard() {
                         <div className="inline-flex items-center gap-1.5">
                           {item.status === 'Pending' && (
                             <>
-                              <button
-                                type="button"
-                                onClick={() => handleQuickVerify(item)}
-                                className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 px-2.5 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 transition"
-                              >
-                                <CheckCircle2 size={13} /> Verify
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => handleOpenReject(item)}
-                                className="inline-flex items-center gap-1 rounded-lg bg-rose-50 px-2.5 py-1.5 text-xs font-bold text-rose-700 hover:bg-rose-100 transition"
-                              >
-                                <XCircle size={13} /> Reject
-                              </button>
+                              {isReviewBlocked(item) ? (
+                                <span className="inline-flex items-center gap-1 rounded-lg bg-amber-50 dark:bg-amber-900/30 px-2 py-1 text-[11px] font-semibold text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800" title="Self-approval or staff submission must be reviewed by admin">
+                                  Admin Queue
+                                </span>
+                              ) : (
+                                <>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleQuickVerify(item)}
+                                    className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 px-2.5 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-700 transition"
+                                  >
+                                    <CheckCircle2 size={13} /> Verify
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenReject(item)}
+                                    className="inline-flex items-center gap-1 rounded-lg bg-rose-50 px-2.5 py-1.5 text-xs font-bold text-rose-700 hover:bg-rose-100 transition"
+                                  >
+                                    <XCircle size={13} /> Reject
+                                  </button>
+                                </>
+                              )}
                             </>
                           )}
                           <Link
