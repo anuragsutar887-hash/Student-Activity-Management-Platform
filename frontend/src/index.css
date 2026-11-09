@@ -4,29 +4,23 @@
 
 :root {
   color-scheme: light;
-  --brand-primary: #4f46e5;
-  --brand-primary-hover: #4338ca;
-  --brand-primary-light: #eef2ff;
-  --brand-midnight: #07091b;
-  --brand-cosmic: #0b0e28;
-  --brand-secondary: #16123d;
-  --brand-tertiary: #2a1b54;
+  --brand-primary: #d99a28;
+  --brand-primary-hover: #b47b16;
+  --brand-primary-light: #fef9ee;
+  --brand-midnight: #090b10;
+  --brand-gold: #f5b544;
+  --brand-gold-glow: rgba(245, 181, 68, 0.4);
   --neon-cyan: #00d2ff;
-  --neon-cyan-glow: rgba(0, 210, 255, 0.4);
-  --neon-magenta: #e879f9;
-  --neon-magenta-glow: rgba(232, 121, 249, 0.4);
-  --neon-mint: #00f5a0;
-  --achievement-gold: #f59e0b;
+  --neon-cyan-glow: rgba(0, 210, 255, 0.3);
+  --achievement-gold: #f5b544;
   --achievement-gold-glow: #ffb800;
-  --energy-orange: #f97316;
-  --energy-orange-light: #fff7ed;
   --success: #10b981;
   --success-dark: #059669;
   --success-light: #d1fae5;
   --danger: #f43f5e;
-  --app-background: #f8f9fe;
+  --app-background: #f7f8fa;
   --surface-card: #ffffff;
-  --surface-nested: #f1f3fb;
+  --surface-nested: #f1f3f7;
   --border-primary: #e2e8f0;
   --text-primary: #0f172a;
   --text-secondary: #475569;
@@ -35,41 +29,53 @@
 
 .dark {
   color-scheme: dark;
-  --app-background: #090d16;
-  --surface-card: #0f172a;
-  --surface-nested: #1e293b;
-  --border-primary: #334155;
+  --brand-primary: #f5b544;
+  --brand-primary-hover: #e5a83b;
+  --brand-primary-light: rgba(245, 181, 68, 0.12);
+  --brand-midnight: #090b10;
+  --brand-gold: #f5b544;
+  --brand-gold-glow: rgba(245, 181, 68, 0.35);
+  --app-background: #090b10;
+  --surface-card: #111420;
+  --surface-nested: #161a29;
+  --border-primary: #1f2538;
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
   --text-muted: #64748b;
 }
 
 @theme {
-  --color-slate-50: #f8f9fe;
-  --color-slate-100: #f1f3fb;
-  --color-indigo-50: #eef2ff;
-  --color-indigo-100: #e0e7ff;
-  --color-indigo-200: #c7d2fe;
-  --color-indigo-300: #a5b4fc;
-  --color-indigo-400: #818cf8;
-  --color-indigo-500: #6366f1;
-  --color-indigo-600: #4f46e5;
-  --color-indigo-700: #4338ca;
-  --color-indigo-800: #312e81;
-  --color-indigo-900: #1e1b4b;
-  --color-indigo-950: #0b0e28;
-  --color-blue-50: #f0f9ff;
-  --color-blue-100: #e0f2fe;
-  --color-blue-500: #0ea5e9;
-  --color-blue-600: #0284c7;
-  --color-blue-700: #0369a1;
-  --color-violet-50: #faf5ff;
-  --color-violet-100: #f3e8ff;
-  --color-violet-600: #9333ea;
-  --color-violet-700: #7e22ce;
-  --color-violet-800: #2a1b54;
-  --color-violet-900: #16123d;
-  --color-violet-950: #07091b;
+  --color-slate-50: #f7f8fa;
+  --color-slate-100: #f0f2f6;
+  --color-slate-800: #121522;
+  --color-slate-900: #0c0e16;
+  --color-slate-950: #08090f;
+
+  /* Black Gold Elite Theme Tokens */
+  --color-gold-50: #fffdf5;
+  --color-gold-100: #fef8e7;
+  --color-gold-200: #fdecc4;
+  --color-gold-300: #fbdb96;
+  --color-gold-400: #f7c35f;
+  --color-gold-500: #f5b544;
+  --color-gold-600: #e5a83b;
+  --color-gold-700: #d99a28;
+  --color-gold-800: #925c0e;
+  --color-gold-900: #78480f;
+  --color-gold-950: #452603;
+
+  /* Global Brand Accent Tokens (Mapped to Gold Elite Palette) */
+  --color-indigo-50: #fefce8;
+  --color-indigo-100: #fef9c3;
+  --color-indigo-200: #fef08a;
+  --color-indigo-300: #fde047;
+  --color-indigo-400: #facc15;
+  --color-indigo-500: #f5b544;
+  --color-indigo-600: #e5a83b;
+  --color-indigo-700: #d99a28;
+  --color-indigo-800: #925c0e;
+  --color-indigo-900: #231d10;
+  --color-indigo-950: #0f121d;
 }
 
 * { box-sizing: border-box; }
@@ -89,9 +95,9 @@ button, input, select, textarea { font: inherit; }
   isolation: isolate;
   overflow: hidden;
   border-radius: 1.5rem;
-  background: linear-gradient(135deg, #07091b 0%, #0b0e28 35%, #16123d 70%, #2a1b54 100%);
-  border: 1px solid rgba(0, 210, 255, 0.22);
-  box-shadow: 0 20px 35px -12px rgba(7, 9, 27, 0.5), 0 0 25px -4px rgba(0, 210, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  background: linear-gradient(135deg, #090b10 0%, #111422 45%, #181d2e 100%);
+  border: 1px solid rgba(245, 181, 68, 0.28);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 25px -4px rgba(245, 181, 68, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   color: white;
 }
 .dashboard-hero > * { position: relative; z-index: 1; }
@@ -103,7 +109,7 @@ button, input, select, textarea { font: inherit; }
   width: 17rem;
   height: 17rem;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(0, 210, 255, 0.24) 0%, rgba(0, 210, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(245, 181, 68, 0.22) 0%, rgba(245, 181, 68, 0) 70%);
   content: "";
   pointer-events: none;
 }
@@ -115,7 +121,7 @@ button, input, select, textarea { font: inherit; }
   width: 19rem;
   height: 19rem;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(232, 121, 249, 0.22) 0%, rgba(232, 121, 249, 0) 70%);
+  background: radial-gradient(circle, rgba(245, 181, 68, 0.16) 0%, rgba(245, 181, 68, 0) 70%);
   content: "";
   pointer-events: none;
 }

@@ -114,27 +114,35 @@ export default function Header({ title = 'Dashboard' }) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-4 backdrop-blur sm:px-6 lg:px-8 transition-colors duration-200">
+      <header className="sticky top-0 z-40 border-b border-slate-200 dark:border-[#1f2538] bg-white/95 dark:bg-[#0c0e17]/95 px-4 backdrop-blur sm:px-6 lg:px-8 transition-colors duration-200">
         <div className="mx-auto flex h-[70px] w-full max-w-7xl items-center justify-between gap-4">
           
-          {/* Left: Brand Logo & Optional Page Title */}
+          {/* Left: Brand Logo & Telemetry Tag */}
           <div className="flex shrink-0 items-center gap-3">
             <Link
               to={`/${role}/dashboard`}
-              className="flex items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              className="flex items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             >
               <ITPulseLogo size={36} className="shrink-0" />
               <div className="leading-tight">
-                <span className="text-base font-bold tracking-tight text-slate-900 dark:text-slate-100">IT Pulse</span>
-                <span className="block text-[10px] font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                  IT Dept
+                <span className="text-base font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
+                  IT Pulse
+                </span>
+                <span className="block text-[9px] font-bold uppercase tracking-wider text-[#d99a28] dark:text-[#f5b544]">
+                  Black Gold Elite &bull; Telemetry
                 </span>
               </div>
             </Link>
+
+            {/* Platform Telemetry Pill */}
+            <div className="hidden md:flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-[#232940] bg-slate-50 dark:bg-[#141724] px-2.5 py-1 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-[10px] font-mono tracking-wider">VAULT SYNC ACTIVE</span>
+            </div>
           </div>
 
-          {/* Center / Right: Navigation Options (Top-Right Placement) */}
-          <div className="flex items-center gap-1.5 sm:gap-3">
+          {/* Center / Right: Navigation & Controls */}
+          <div className="flex items-center gap-2 sm:gap-3">
             
             {/* Desktop Navigation Links */}
             <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5" aria-label="Main Navigation">
@@ -146,8 +154,8 @@ export default function Header({ title = 'Dashboard' }) {
                   className={({ isActive }) =>
                     `inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-all whitespace-nowrap ${
                       isActive
-                        ? 'bg-indigo-600 text-white shadow-xs'
-                        : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                        ? 'bg-[#f5b544] text-[#090b10] font-bold shadow-[0_2px_10px_rgba(245,181,68,0.25)]'
+                        : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
                     }`
                   }
                 >
@@ -157,20 +165,26 @@ export default function Header({ title = 'Dashboard' }) {
               ))}
             </nav>
 
-            <div className="hidden h-6 w-px bg-slate-200 dark:bg-slate-800 lg:block" />
+            <div className="hidden h-6 w-px bg-slate-200 dark:bg-[#202538] lg:block" />
 
-            {/* Dark / Light Theme Toggle */}
+            {/* Dark / Light Theme Pill Toggle */}
             <button
               type="button"
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
               onClick={toggleTheme}
-              className="relative flex h-9 w-9 items-center justify-center rounded-xl p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 transition-colors"
+              className="relative flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-[#232940] bg-slate-50 dark:bg-[#141724] px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:border-amber-400/50 transition-colors"
             >
               {theme === 'dark' ? (
-                <Sun size={18} className="text-amber-400 transition-transform hover:rotate-45" />
+                <>
+                  <Sun size={14} className="text-amber-400" />
+                  <span className="text-[11px] text-amber-400 font-bold">Gold Dark</span>
+                </>
               ) : (
-                <Moon size={18} className="text-slate-600 dark:text-slate-300 transition-transform hover:-rotate-12" />
+                <>
+                  <Moon size={14} className="text-slate-600" />
+                  <span className="text-[11px] text-slate-700 font-bold">Light</span>
+                </>
               )}
             </button>
 
