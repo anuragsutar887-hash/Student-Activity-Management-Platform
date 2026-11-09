@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import ITPulseLogo from './ITPulseLogo.jsx'
 import { useAuth } from '../context/authContextValue.js'
+import { useLockBodyScroll } from '../hooks/useLockBodyScroll.js'
 
 const navByRole = {
   student: [
@@ -49,6 +50,7 @@ export default function Sidebar({ role = 'student', isOpen = false, onClose = ()
   const [helpOpen, setHelpOpen] = useState(false)
   const [logoutOpen, setLogoutOpen] = useState(false)
   const links = navByRole[role] ?? navByRole.student
+  useLockBodyScroll(Boolean(helpOpen || logoutOpen || isOpen))
 
   const roleLabel = role === 'student' ? 'Student' : role === 'staff' ? 'Faculty Coord' : 'Administrator'
   const userDisplay = currentUser?.name ? `${currentUser.name} (${roleLabel})` : `${roleLabel}`

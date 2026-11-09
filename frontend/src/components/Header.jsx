@@ -28,6 +28,7 @@ import {
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/authContextValue.js'
 import { useTheme } from '../context/ThemeContext.jsx'
+import { useLockBodyScroll } from '../hooks/useLockBodyScroll.js'
 import ITPulseLogo from './ITPulseLogo.jsx'
 
 const NAV_ITEMS_BY_ROLE = {
@@ -69,6 +70,8 @@ export default function Header({ title = 'Dashboard' }) {
   const [profileOpen, setProfileOpen] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
   const profileRef = useRef(null)
+
+  useLockBodyScroll(Boolean(helpOpen || mobileNavOpen))
 
   const [readNotifications, setReadNotifications] = useState(() => {
     try { return JSON.parse(localStorage.getItem('student-activity-read-notifications') ?? '[]') }

@@ -8,6 +8,7 @@ import ITPulseLogo from '../../components/ITPulseLogo.jsx'
 import Modal from '../../components/Modal.jsx'
 import { useAuth } from '../../context/authContextValue.js'
 import { useTheme } from '../../context/ThemeContext.jsx'
+import { useLockBodyScroll } from '../../hooks/useLockBodyScroll.js'
 import { getDepartments, getStudents, saveStudent, searchStudents } from '../../services/studentService.js'
 import './Login.css'
 
@@ -44,9 +45,10 @@ export default function Login() {
   const [errors, setErrors] = useState({})
   const [notice, setNotice] = useState('')
   const [helpOpen, setHelpOpen] = useState(false)
-
   // Registration modal state
   const [registerOpen, setRegisterOpen] = useState(false)
+
+  useLockBodyScroll(Boolean(helpOpen || registerOpen))
   const [regName, setRegName] = useState('')
   const [regRoll, setRegRoll] = useState('')
   const [regDept, setRegDept] = useState('Information Technology')

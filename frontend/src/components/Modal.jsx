@@ -1,7 +1,10 @@
 import { useEffect } from 'react'
 import { X } from 'lucide-react'
+import { useLockBodyScroll } from '../hooks/useLockBodyScroll.js'
 
 export default function Modal({ open, onClose, title, children, actions }) {
+  useLockBodyScroll(Boolean(open))
+
   useEffect(() => {
     if (!open) return undefined
     function onKeyDown(event) { if (event.key === 'Escape') onClose?.() }

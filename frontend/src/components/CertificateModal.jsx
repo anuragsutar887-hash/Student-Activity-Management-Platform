@@ -1,8 +1,22 @@
+import { useEffect } from 'react'
 import { Award, CheckCircle2, Clock3, Download, FileCheck, FileUp, ShieldCheck, X, XCircle } from 'lucide-react'
 import Button from './Button.jsx'
+import { useLockBodyScroll } from '../hooks/useLockBodyScroll.js'
 
 export default function CertificateModal({ open, onClose, activity }) {
-  if (!open || !activity) return null
+  const isVisible = Boolean(open && activity)
+  useLockBodyScroll(isVisible)
+
+  useEffect(() => {
+    if (!isVisible) return undefined
+    function onKeyDown(event) {
+      if (event.key === 'Escape') onClose?.()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [isVisible, onClose])
+
+  if (!isVisible) return null
 
   const studentName = activity.student_name || 'Student'
   const activityName = activity.name || 'Student Activity'
@@ -102,7 +116,10 @@ export default function CertificateModal({ open, onClose, activity }) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="cert-dialog-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-xs"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose?.()
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-xs overflow-y-auto"
     >
       <div className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl text-slate-900 dark:text-slate-100">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 px-4 py-3.5 sm:px-6 sm:py-4">
