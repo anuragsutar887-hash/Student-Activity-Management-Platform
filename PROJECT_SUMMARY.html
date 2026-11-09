@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IT Pulse — Portal Architecture & Operating Manual</title>
+  <style>
+    :root {
+      --bg: #f8f9fe;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --code-bg: #f1f5f9;
+      --table-header: #f8fafc;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #090d16;
+        --card-bg: #0f172a;
+        --text: #f8fafc;
+        --text-muted: #94a3b8;
+        --border: #334155;
+        --primary: #6366f1;
+        --primary-hover: #4f46e5;
+        --code-bg: #1e293b;
+        --table-header: #1e293b;
+      }
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 32px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: rgba(79, 70, 229, 0.1);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    h1 {
+      font-size: 28px;
+      margin: 12px 0 6px 0;
+      font-weight: 800;
+    }
+    h2 {
+      font-size: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-top: 36px;
+      color: var(--primary);
+    }
+    h3 {
+      font-size: 16px;
+      margin-top: 24px;
+    }
+    p, li {
+      color: var(--text);
+      font-size: 14.5px;
+    }
+    .callout {
+      padding: 16px 20px;
+      background: rgba(79, 70, 229, 0.05);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background-color: var(--table-header);
+      font-weight: 700;
+    }
+    pre, code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+    }
+    code {
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    pre {
+      background: var(--code-bg);
+      padding: 16px;
+      border-radius: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+    }
+    pre code {
+      background: transparent;
+      padding: 0;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+    button, a.btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    button:hover, a.btn:hover {
+      background: var(--primary-hover);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: var(--code-bg);
+    }
+    @media print {
+      body { background: #fff; color: #000; }
+      .container { border: none; box-shadow: none; margin: 0; padding: 0; max-width: 100%; }
+      .btn-group { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header-bar">
+      <div>
+        <span class="badge">IT Dept Portal Reference</span>
+        <h1>IT Pulse — Technical & Portal Manual</h1>
+        <p style="margin: 0; color: var(--text-muted); font-size: 14px;">Complete project documentation for developers, AI agents & portal administration</p>
+      </div>
+      <div class="btn-group">
+        <a href="PROJECT_SUMMARY.md" download="PROJECT_SUMMARY.md" class="btn" title="Download markdown version">
+          📥 Download .MD
+        </a>
+        <button onclick="window.print()" class="btn btn-secondary" title="Save page as PDF">
+          🖨️ Print / Save PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Purpose:</strong> This document is formatted for instant sharing with another AI agent or developer to understand the architecture, theming engine, roles, credentials, and data workflows of the IT Pulse portal.
+    </div>
+
+    <h2>1. Quick Reference & Infrastructure</h2>
+    <table>
+      <thead>
+        <tr><th>Attribute</th><th>Specification</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Platform Name</strong></td><td>IT Pulse (Student Activity Management Platform)</td></tr>
+        <tr><td><strong>Live Web App</strong></td><td><a href="https://frontend-ten-beta-14.vercel.app" target="_blank">https://frontend-ten-beta-14.vercel.app</a></td></tr>
+        <tr><td><strong>GitHub Repo</strong></td><td><a href="https://github.com/anuragsutar887-hash/Student-Activity-Management-Platform" target="_blank">anuragsutar887-hash/Student-Activity-Management-Platform</a> (Branch: <code>main</code>)</td></tr>
+        <tr><td><strong>Stack</strong></td><td>React 19, Vite 8, Tailwind CSS v4, Lucide Icons, Recharts, Supabase</td></tr>
+        <tr><td><strong>Supabase URL</strong></td><td><code>https://nghxwqnibaaxmgdgdrhx.supabase.co</code></td></tr>
+        <tr><td><strong>Data Mode</strong></td><td>Hybrid: Live Supabase Database with Fail-safe LocalStorage Fallback</td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. User Roles & Accounts</h2>
+    <h3>A. Student Credentials (68 Pre-seeded Profiles)</h3>
+    <ul>
+      <li><strong>Login:</strong> Select profile from student dropdown, enter PRN and password.</li>
+      <li><strong>Compulsory PRN:</strong> Validates uniqueness across all 68 students. If another student's PRN is used, fails with <code>PRN is wrong. PRN "..." is already registered to another student (...)</code>.</li>
+      <li><strong>Default Passwords:</strong> <code>Pass@01</code> to <code>Pass@68</code> matching Roll No <code>C01</code> to <code>C68</code>.</li>
+      <li><strong>Example:</strong> Anurag Sutar (Roll: <code>C60</code>, Default PRN: <code>PRN2024IT060</code>, Password: <code>Pass@60</code>).</li>
+    </ul>
+
+    <h3>B. Faculty / Staff Coordinator</h3>
+    <ul>
+      <li><strong>Email:</strong> <code>faculty@itpulse.edu</code> (or <code>teacher@itpulse.edu</code>)</li>
+      <li><strong>Password:</strong> <code>Teacher@IT2026!</code></li>
+      <li><strong>Capabilities:</strong> Activity queue review, 1-click verify/reject, academic groups oversight, student directory.</li>
+    </ul>
+
+    <h3>C. System Administrator</h3>
+    <ul>
+      <li><strong>Email:</strong> <code>admin@itpulse.edu</code></li>
+      <li><strong>Password:</strong> <code>Admin@IT2026!</code></li>
+      <li><strong>Capabilities:</strong> Full institutional dashboard, student & staff management, category configuration, audit logs.</li>
+    </ul>
+
+    <h2>3. Visual Theme Architecture & Tailwind v4 Guide</h2>
+    <p>The application runs on <strong>Tailwind CSS v4</strong> with custom variables and a root <code>.dark</code> class.</p>
+    <ul>
+      <li><strong>Context:</strong> <code>ThemeContext.jsx</code> stores mode in <code>localStorage.getItem('itpulse-theme')</code> and toggles <code>document.documentElement.classList</code>.</li>
+      <li><strong>Dark Variant:</strong> In <code>frontend/src/index.css</code>: <code>@custom-variant dark (&:where(.dark, .dark *));</code> enables all <code>dark:</code> utilities.</li>
+      <li><strong>Theme Toggle:</strong> Header contains a Sun/Moon button connected to <code>useTheme().toggleTheme</code>.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Theme Rules to Avoid "Color Patches":</strong>
+      <ol>
+        <li>Always pair <code>bg-white</code> with <code>dark:bg-slate-900</code> or <code>dark:bg-slate-800/60</code>.</li>
+        <li>Always pair <code>border-slate-200</code> with <code>dark:border-slate-700</code> or <code>dark:border-slate-800</code>.</li>
+        <li>Always pair <code>text-slate-900</code> with <code>dark:text-slate-100</code>.</li>
+        <li>Form inputs must include <code>dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700</code>.</li>
+      </ol>
+    </div>
+
+    <h2>4. Core Portal Workflows</h2>
+    <h3>A. Student "Add Achievement" Workflow</h3>
+    <ul>
+      <li><strong>Label Standard:</strong> All occurrences of "Add Activity" renamed to <strong>"Add Achievement"</strong> in Student navigation, buttons, and headers.</li>
+      <li><strong>Compulsory Certificate:</strong> Uploading certificate/proof is mandatory for submission (marked with a red asterisk <code>*</code>). Clicking Submit without a certificate displays an error blocking submission.</li>
+      <li><strong>Seeded Peer Activities:</strong> New accounts immediately see 6 verified IT peer achievements (Hackathons, AWS certifications, IEEE paper, etc.) loaded from <code>PREVIOUS_ACTIVITIES</code> in <code>activityService.js</code> (v11 storage).</li>
+    </ul>
+
+    <h3>B. Faculty Review & Verification</h3>
+    <ul>
+      <li>Review queue provides 1-click verification or rejection with feedback instructions.</li>
+      <li>In-modal PDF and image certificate viewer (<code>CertificateModal.jsx</code>) with zoom and print options.</li>
+      <li>Academic groups view (<code>MyGroups.jsx</code>) for cohort monitoring.</li>
+    </ul>
+
+    <h3>C. Charts & Responsiveness</h3>
+    <ul>
+      <li><strong>Recharts Optimization:</strong> BarCharts use <code>isAnimationActive={false}</code> and <code>maxBarSize={36}</code> to prevent lag; PieCharts use <code>paddingAngle={0}</code> and <code>stroke="none"</code> to remove gaps.</li>
+      <li><strong>Responsive Design:</strong> Dual table and mobile-card views across dashboards and browsers.</li>
+    </ul>
+
+    <h2>5. Protected Route Structure</h2>
+    <pre><code>/login
+/student/dashboard | /student/activity/add | /student/activities | /student/all-activities
+/staff/dashboard | /staff/submissions | /staff/verify/:id | /staff/groups | /staff/reports
+/admin/dashboard | /admin/students | /admin/staff | /admin/categories | /admin/audit | /admin/reports</code></pre>
+
+    <h2>6. Deployment & Git Commands</h2>
+    <pre><code># Build verification
+npm run build
+
+# Push to GitHub (auto-deploys to Vercel)
+git add .
+git commit -m "Your commit message"
+git push origin main</code></pre>
+
+    <div style="margin-top: 40px; text-align: center; color: var(--text-muted); font-size: 13px;">
+      IT Pulse Platform — Department of Information Technology &bull; Documentation Generated for Agent Context
+    </div>
+  </div>
+
+</body>
+</html>
